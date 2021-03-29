@@ -1,0 +1,4 @@
+- Dilation and Erosion là 2 toán tử morphological phổ biến nhất
+- Toán tử morphological là toán tử process image dựa vào shape
+- Dilation làm đậm shape 
+- Erosion làm mảnh shape
