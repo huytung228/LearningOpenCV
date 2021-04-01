@@ -47,13 +47,27 @@ area_contours = [cv2.contourArea(cnt) for cnt in contours]
 biggest_area_index = np.argmax(area_contours)
 cnt = contours[biggest_area_index]
 
+rect = cv2.minAreaRect(cnt)
+angle = rect[2]
+print(angle)
+
 cnt = cv2.approxPolyDP(cnt,0.01*cv2.arcLength(cnt,True),True)
-print(cnt)
+print(cnt[0])
 
 cv2.drawContours(img, [cnt], -1, (0, 255, 0), 2)
+for point in cnt:
+    # Thickness = -1 _> vẽ hình tròn full
+    cv2.circle(img, tuple(point[0]), 5, (0, 0, 255), -1)
 
+x,y,w,h = cv2.boundingRect(cnt)
+cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
 
-cv2.imshow('doc', img)
+height, width = img.shape[:2]
+center = (height//2, width//2)
+rot = cv2.getRotationMatrix2D(center, angle, 1)
+img = cv2.warpAffine(img, rot, (width, height))
+
+cv2.imshow('doc', img)  
 if cv2.waitKey(0) & 0xFF == ord('q'):
     exit()
 
